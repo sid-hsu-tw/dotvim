@@ -1,0 +1,51 @@
+
+{
+  "coc": {
+    "preferences": {
+      "hoverTarget": "preview",
+      "jumpCommand": "edit"
+    }
+  },
+  "languageserver": {
+    "ccls": {
+      "command": "ccls",
+      "filetypes": ["c", "cpp", "cuda", "objc", "objcpp"],
+      "rootPatterns": ["compile_commands.json", ".git/"],
+      "initializationOptions": {
+        "cache": {
+          "directory": ".ccls-cache",
+          "format": "json",
+          "hierarchicalPath": false,
+          "retainInMemory": 1
+        },
+        "highlight": {
+          "lsRanges": false
+        },
+        "index": {
+            "initialNoLinkage": true
+        },
+        "request": {
+          "timeout": 5000
+        },
+        "workspaceSymbol": {
+          "caseSensitivity": 1,
+          "maxNum": 10000,
+          "sort": true
+        },
+        "xref": {
+          "maxNum": 20000
+        }
+      }
+    }
+  },
+  "list": {
+    "insertMappings": {
+      "<C-e>": "normal:j",
+      "<C-y>": "normal:k"
+    },
+    "maxHeight": 20
+  },
+  "suggest": {
+    ".triggerAfterInsertEnter": true
+  }
+}
