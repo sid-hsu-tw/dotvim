@@ -43,82 +43,32 @@ if has('mouse')
   set mouse=a
 endif
 
-"dein Scripts-----------------------------
+" Plugins will be downloaded under the specified directory.
+call plug#begin('~/.vim/plugged')
 
-" Required:
-set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+Plug 'jackguo380/vim-lsp-cxx-highlight'
+Plug 'liuchengxu/vista.vim'
+Plug 'majutsushi/tagbar'
+Plug 'morhetz/gruvbox'
+"Plug 'nathanaelkane/vim-indent-guides'
+Plug 'neoclide/coc.nvim', {
+            \ 'branch': 'release'
+            \ }
+Plug 'powerman/vim-plugin-AnsiEsc'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'Shougo/denite.nvim'
+Plug 'Shougo/neomru.vim'
+Plug 'Shougo/unite.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
-" Required:
-if dein#load_state('~/.cache/dein')
-  call dein#begin('~/.cache/dein')
+" List ends here. Plugins become visible to Vim after this call.
+call plug#end()
 
-  " Let dein manage dein
-  " Required:
-  call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
-
-  " Add or remove your plugins here like this:
-  "Plugin 'gtags.vim'
-  "Plugin 'hewes/unite-gtags'
-  call dein#add('jackguo380/vim-lsp-cxx-highlight', {
-              \ 'merged': 0
-              \ })
-  "if has('lua')
-  "  call dein#add('jeaye/color_coded', {
-  "            \ 'merged': 0
-  "            \ })
-  "endif
-  call dein#add('liuchengxu/vista.vim', {
-              \ 'merged': 0
-              \ })
-  "Plugin 'lyuts/vim-rtags'
-  call dein#add('majutsushi/tagbar')
-  call dein#add('morhetz/gruvbox')
-  "Plugin 'nathanaelkane/vim-indent-guides'
-  call dein#add('neoclide/coc.nvim', {
-              \ 'merged': 0,
-              \ 'build': './install.sh nightly'
-              \ })
-  call dein#add('powerman/vim-plugin-AnsiEsc', {
-              \ 'merged': 0
-              \ })
-  call dein#add('prabirshrestha/async.vim', {
-              \ 'merged': 0
-              \ })
-  call dein#add('prabirshrestha/vim-lsp', {
-              \ 'merged': 0
-              \ })
-  call dein#add('roxma/nvim-yarp')
-  call dein#add('roxma/vim-hug-neovim-rpc')
-  "if !has('win32unix') && !has('win32')
-  "  Plugin 'Valloric/YouCompleteMe'
-  "endif
-  call dein#add('Shougo/denite.nvim', {
-              \ 'merged': 0
-              \ })
-  call dein#add('Shougo/neomru.vim')
-  call dein#add('Shougo/unite.vim', {
-              \ 'merged': 0
-              \ })
-  "call dein#add('Shougo/vimproc.vim')
-  call dein#add('tpope/vim-fugitive')
-  call dein#add('vim-airline/vim-airline')
-  call dein#add('vim-airline/vim-airline-themes')
-
-  " Required:
-  call dein#end()
-  call dein#save_state()
-endif
-
-" Required:
-filetype plugin indent on
-syntax enable
-
-" If you want to install not installed plugins on startup.
-"if dein#check_install()
-"  call dein#install()
-"endif
-
-"End dein Scripts-------------------------
 
 if has('win32')
   set runtimepath+=~/.vim
@@ -189,28 +139,6 @@ colorscheme gruvbox
 let g:indent_guides_auto_colors = 0
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
-
-" cscope
-if executable('gtags-cscope')
-  set cscopetag
-  set cscopeprg=gtags-cscope
-endif
-
-if filereadable('GTAGS')
-  cscope add GTAGS
-endif
-if filereadable('../GTAGS')
-  cscope add ../GTAGS
-endif
-
-nmap <C-_>s :cs find s <C-R>=expand("<cword>")<CR><CR>
-"nmap <C-_>g :cs find g <C-R>=expand("<cword>")<CR><CR>
-nmap <C-_>c :cs find c <C-R>=expand("<cword>")<CR><CR>
-nmap <C-_>t :cs find t <C-R>=expand("<cword>")<CR><CR>
-nmap <C-_>e :cs find e <C-R>=expand("<cword>")<CR><CR>
-nmap <C-_>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
-nmap <C-_>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-nmap <C-_>d :cs find d <C-R>=expand("<cword>")<CR><CR>
 
 " vista
 let g:vista_default_executive = 'coc'
@@ -301,46 +229,6 @@ nnoremap <leader>/ :<C-u>Denite -post-action=suspend line<CR>
 "nnoremap <leader>/ :<C-u>Unite line -start-insert -no-quit<CR>
 " jump
 "nnoremap <leader>j :<C-u>Denite jump<CR>
-
-" gtags reference and definition
-"nnoremap <leader>c :<C-u>Unite gtags/context<CR>
-"nnoremap <leader>nqc :<C-u>Unite gtags/context -no-quit<CR>
-"nnoremap <leader>d :<C-u>Unite gtags/def<CR>
-"nnoremap <leader>nqd :<C-u>Unite gtags/def -no-quit<CR>
-"nnoremap <leader>ggr :<C-u>Unite gtags/grep<CR>
-
-" rtags
-let g:rtagsUseDefaultMappings = 0
-noremap <Leader>ri :call rtags#SymbolInfo()<CR>
-"noremap <Leader>rj :call rtags#JumpTo(g:SAME_WINDOW)<CR>
-"noremap <Leader>rJ :call rtags#JumpTo(g:SAME_WINDOW, { '--declaration-only' : '' })<CR>
-noremap <Leader>rS :call rtags#JumpTo(g:H_SPLIT)<CR>
-noremap <Leader>rV :call rtags#JumpTo(g:V_SPLIT)<CR>
-noremap <Leader>rT :call rtags#JumpTo(g:NEW_TAB)<CR>
-noremap <Leader>rp :call rtags#JumpToParent()<CR>
-"noremap <Leader>rf :call rtags#FindRefs()<CR>
-noremap <Leader>rF :call rtags#FindRefsCallTree()<CR>
-noremap <Leader>rn :call rtags#FindRefsByName(input("Pattern? ", "", "customlist,rtags#CompleteSymbols"))<CR>
-"noremap <Leader>rs :call rtags#FindSymbols(input("Pattern? ", "", "customlist,rtags#CompleteSymbols"))<CR>
-noremap <Leader>rr :call rtags#ReindexFile()<CR>
-"noremap <Leader>rl :call rtags#ProjectList()<CR>
-noremap <Leader>rw :call rtags#RenameSymbolUnderCursor()<CR>
-noremap <Leader>rv :call rtags#FindVirtuals()<CR>
-noremap <Leader>rb :call rtags#JumpBack()<CR>
-noremap <Leader>rC :call rtags#FindSuperClasses()<CR>
-noremap <Leader>rc :call rtags#FindSubClasses()<CR>
-noremap <Leader>rd :call rtags#Diagnostics()<CR>
-nnoremap <leader>rf :<C-u>Unite rtags/references<CR>
-nnoremap <leader>nqrf :<C-u>Unite rtags/references -no-quit<CR>
-nnoremap <leader>rs :<C-u>Unite rtags/symbol<CR>
-nnoremap <leader>nqrs :<C-u>Unite rtags/symbol -no-quit<CR>
-nnoremap <leader>rl :<C-u>Unite rtags/project<CR>
-nnoremap <leader>rj :<C-u>Unite rtags/definitions<CR>
-nnoremap <leader>rJ :<C-u>Unite rtags/declarations<CR>
-if has("autocmd")
-  autocmd FileType python nnoremap <buffer> <leader>rj :<C-u>YcmCompleter GoTo<CR>
-  autocmd FileType python nnoremap <buffer> <leader>rf :<C-u>YcmCompleter GoToReferences<CR>
-endif " has("autocmd")
 
 " coc reference and definition
 "nmap <leader>jd <Plug>(coc-definition)
@@ -474,45 +362,6 @@ if executable('find')
   endif
 endif
 
-if executable('gtags-cscope')
-  " specify your project path as key.
-  " '_' in key means default configuration.
-  let g:unite_source_gtags_project_config = {
-\   '_': {
-\     'treelize': 0
-\   },
-\ }
-  "let g:unite_source_gtags_project_config = {
-\   '_': {
-\     'treelize': 0
-\   },
-\   '/home/sid/repo_wiced/staging/Wiced-SDK/20719-B1_Bluetooth_Disable/': {
-\     'treelize': 0,
-\     'through_all_tags': 1,
-\     'gtags_libpath': [
-\       '/home/sid/repo_wiced/staging/Wiced-SDK/common/apps/',
-\       '/home/sid/repo_wiced/staging/Wiced-SDK/common/include/',
-\       '/home/sid/repo_wiced/staging/Wiced-SDK/common/libraries/',
-\     ]
-\   },
-\   '/home/sid/repo_wiced/staging/Wiced-SDK/20739-B1_Bluetooth_ZigBee/': {
-\     'treelize': 0,
-\     'gtags_libpath': [
-\       '/home/sid/repo_wiced/staging/Wiced-SDK/common/include/'
-\     ]
-\   },
-\   '/home/sid/repo_wiced/staging/Wiced-SDK/common/client_control/source/': {
-\     'treelize': 0,
-\     'gtags_libpath': [
-\       '/home/sid/repo_wiced/staging/Wiced-SDK/common/include/'
-\     ]
-\   }
-\ }
-  "let g:unite_source_gtags_project_config['/home/sid/repo_wiced/staging/Wiced-SDK/common/client_control/source'] = {
-\   'gtags_libpath': ['/usr/include/', '/home/foo/include/']
-\   }
-endif
-
 " tagbar
 let g:tagbar_sort = 0
 "let g:tagbar_show_linenumbers = 2
@@ -538,20 +387,6 @@ nnoremap <silent> <C-N> :tabn<CR>
 nnoremap <silent> <C-P> :tabp<CR>
 nnoremap :te :tabe
 
-
-" Options for YouCompleteMe
-" Uncomment to disable YouCompleteMe
-"let g:loaded_youcompleteme = 1
-if exists('g:loaded_youcompleteme') == 0
-"    let g:ycm_python_binary_path = '/mingw64/bin/python2'
-"    let g:ycm_path_to_python_interpreter = '/mingw64/bin/python2'
-"  let g:ycm_always_populate_location_list = 1
-"  let g:ycm_autoclose_preview_window_after_insertion = 1
-" let g:ycm_confirm_extra_conf = 0
-  let g:ycm_complete_in_comments = 1
-  let g:ycm_collect_identifiers_from_comments_and_strings = 1
-" let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-endif
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
