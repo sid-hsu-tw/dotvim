@@ -1,102 +1,149 @@
-" An example for a vimrc file.
-"
-" Maintainer:	Bram Moolenaar <Bram@vim.org>
-" Last change:	2002 Sep 19
-"
-" To use it, copy it to
-"     for Unix and OS/2:  ~/.vimrc
-"	      for Amiga:  s:.vimrc
-"  for MS-DOS and Win32:  $VIM\_vimrc
-"	    for OpenVMS:  sys$login:.vimrc
+" The vimrc file.
 
 " When started as "evim", evim.vim will already have done these settings.
 if v:progname =~? "evim"
   finish
 endif
 
-" Use Vim settings, rather then Vi settings (much better!).
+" Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
-set nocompatible
+" Avoid side effects when it was already reset.
+if &compatible
+  set nocompatible
+endif
+
+" Allow backspacing over everything in insert mode.
+set backspace=indent,eol,start
+
+set history=200		" keep 200 lines of command line history
+set ruler		" show the cursor position all the time
+set showcmd		" display incomplete commands
+set wildmenu		" display completion matches in a status line
+
+" Show @@@ in the last line if it is truncated.
+set display=truncate
+
+" Do incremental searching when it's possible to timeout.
+if has('reltime')
+  set incsearch
+endif
+
+" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries.
+if has('win32')
+  set guioptions-=t
+endif
+
+" Don't use Ex mode, use Q for formatting.
+" Revert with ":unmap Q".
+map Q gq
+
+" In many terminal emulators the mouse works just fine.  By enabling it you
+" can position the cursor, Visually select and scroll with the mouse.
+if has('mouse')
+  set mouse=a
+endif
+
+"dein Scripts-----------------------------
+
+" Required:
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+
+" Required:
+if dein#load_state('~/.cache/dein')
+  call dein#begin('~/.cache/dein')
+
+  " Let dein manage dein
+  " Required:
+  call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
+
+  " Add or remove your plugins here like this:
+  "Plugin 'gtags.vim'
+  "Plugin 'hewes/unite-gtags'
+  call dein#add('jackguo380/vim-lsp-cxx-highlight', {
+              \ 'merged': 0
+              \ })
+  "if has('lua')
+  "  call dein#add('jeaye/color_coded', {
+  "            \ 'merged': 0
+  "            \ })
+  "endif
+  call dein#add('liuchengxu/vista.vim', {
+              \ 'merged': 0
+              \ })
+  "Plugin 'lyuts/vim-rtags'
+  call dein#add('majutsushi/tagbar')
+  call dein#add('morhetz/gruvbox')
+  "Plugin 'nathanaelkane/vim-indent-guides'
+  call dein#add('neoclide/coc.nvim', {
+              \ 'merged': 0,
+              \ 'build': './install.sh nightly'
+              \ })
+  call dein#add('powerman/vim-plugin-AnsiEsc', {
+              \ 'merged': 0
+              \ })
+  call dein#add('prabirshrestha/async.vim', {
+              \ 'merged': 0
+              \ })
+  call dein#add('prabirshrestha/vim-lsp', {
+              \ 'merged': 0
+              \ })
+  call dein#add('roxma/nvim-yarp')
+  call dein#add('roxma/vim-hug-neovim-rpc')
+  "if !has('win32unix') && !has('win32')
+  "  Plugin 'Valloric/YouCompleteMe'
+  "endif
+  call dein#add('Shougo/denite.nvim', {
+              \ 'merged': 0
+              \ })
+  call dein#add('Shougo/neomru.vim')
+  call dein#add('Shougo/unite.vim', {
+              \ 'merged': 0
+              \ })
+  "call dein#add('Shougo/vimproc.vim')
+  call dein#add('tpope/vim-fugitive')
+  call dein#add('vim-airline/vim-airline')
+  call dein#add('vim-airline/vim-airline-themes')
+
+  " Required:
+  call dein#end()
+  call dein#save_state()
+endif
+
+" Required:
+filetype plugin indent on
+syntax enable
+
+" If you want to install not installed plugins on startup.
+"if dein#check_install()
+"  call dein#install()
+"endif
+
+"End dein Scripts-------------------------
 
 if has('win32')
   set runtimepath+=~/.vim
   set shellslash
 endif
 
-"
-" vundle begin
-"
-filetype off
-
-" set the runtime path to include Vundle and initialize
-set runtimepath+=~/.vim/bundle/Vundle.vim
-
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
-"Plugin 'airblade/vim-gitgutter'
-"Plugin 'hari-rangarajan/CCTree'
-Plugin 'gtags.vim'
-Plugin 'hewes/unite-gtags'
-if has('lua')
-  Plugin 'jeaye/color_coded'
-endif
-Plugin 'lyuts/vim-rtags'
-Plugin 'majutsushi/tagbar'
-Plugin 'morhetz/gruvbox'
-Plugin 'nathanaelkane/vim-indent-guides'
-if !has('win32unix') && !has('win32')
-  Plugin 'Valloric/YouCompleteMe'
-endif
-Plugin 'Shougo/vimproc.vim'
-Plugin 'Shougo/unite.vim'
-Plugin 'Shougo/neomru.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-"Plugin 'gerw/vim-HiLinkTrace'
-
-
-
-" All of your Plugins must be added before the following line
-call vundle#end()
-
-filetype plugin indent on
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" vundle end
-"
-
 if has('packages') && !has('win32unix') && !has('win32')
   packadd! matchit
 endif
 
-" allow backspacing over everything in insert mode
-"set backspace=indent,eol,start
-
-" if has("vms")
-"   set nobackup	" do not keep a backup file, use versions instead
-" else
-"   set backup		" keep a backup file
-" endif
-set history=50		" keep 50 lines of command line history
-set ruler		" show the cursor position all the time
-set showcmd		" display incomplete commands
-set incsearch		" do incremental searching
+set hidden
 set hlsearch
 "set complete-=i
 set completeopt-=preview
 "set completeopt+=longest
+set cmdheight=2
+set autoindent
+set copyindent
 " set softtabstop=4
 set shiftwidth=4
+set shiftround
 set tabstop=4
 set expandtab
-"set wildmenu
+set smarttab
+set showmatch
 "set bomb
 "set fileencodings=ucs-bom,utf-8,ucs-2le
 set fileencodings=ucs-bom,utf-8,latin1,big5
@@ -105,9 +152,10 @@ set fileencodings=ucs-bom,utf-8,latin1,big5
 set encoding=utf-8
 set termencoding=utf-8
 set cinoptions=:0
-set mouse=nvc
 set sessionoptions=blank,help,sesdir,tabpages,winsize
 set updatetime=1000
+set diffopt+=algorithm:patience,indent-heuristic
+set title
 
 if has("gui_running")
   set guioptions+=a
@@ -132,8 +180,10 @@ endif
 set background=dark
 let g:gruvbox_contrast_dark = 'hard'
 colorscheme gruvbox
+"hi link CocHighlightText GruvboxBlueBold
+"autocmd CursorHold * silent call CocActionAsync('highlight')
 
-syntax on
+"syntax on
 
 " Indent guide
 let g:indent_guides_auto_colors = 0
@@ -161,8 +211,11 @@ nmap <C-_>e :cs find e <C-R>=expand("<cword>")<CR><CR>
 nmap <C-_>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
 nmap <C-_>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
 nmap <C-_>d :cs find d <C-R>=expand("<cword>")<CR><CR>
-nmap <F8> :TagbarToggle<CR>
 
+" vista
+let g:vista_default_executive = 'coc'
+let g:vista_sidebar_width = 40
+nnoremap <F8> :Vista!!<CR>
 
 " 'vim-airline/vim-airline'
 let g:airline_powerline_fonts = 1
@@ -194,31 +247,68 @@ let g:airline#extensions#tabline#show_close_button = 0
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline#extensions#tagbar#flags = 'f'
 
+" airline for Coc
+
+" use error & warning count of diagnostics form coc.nvim
+let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
+let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
+
+" create a part for server status.
+function! GetServerStatus()
+  return get(g:, 'coc_status', '')
+endfunction
+call airline#parts#define_function('coc', 'GetServerStatus')
+function! AirlineInit()
+  let g:airline_section_a = airline#section#create(['coc'])
+endfunction
+autocmd User AirlineAfterInit call AirlineInit()
+
+" exclude overwrite statusline of list filetype
+let g:airline_exclude_filetypes = ["list"]
+
 " 'vim-airline/vim-airline-themes'
 "let g:airline_solarized_bg='dark'
 "let g:airline_theme='solarized'
 
-" Unite
+" Denite/Unite
+" Set the default matcher for all sources.
+call denite#custom#source('_', 'matchers', ['matcher/regexp'])
+"call denite#custom#source('grep', 'matchers', ['matcher/substring'])
 " find all
-nnoremap <leader>fa :<C-u>Unite tab file_mru buffer<CR>
+"nnoremap <leader>fa :<C-u>Unite tab file_mru buffer<CR>
+nnoremap <leader>fa :<C-u>Denite -mode=normal unite:tab file_mru<CR>
 " find buffer directory
 "nnoremap <leader>rb :<C-u>UniteWithBufferDir file_rec/async<CR>
 " find current directory
-nnoremap <leader>fc :<C-u>Unite file<CR>
+"nnoremap <leader>fc :<C-u>Unite file<CR>
 " recursive current directory
-"nnoremap <leader>rc :<C-u>Unite file_rec/async<CR>
+nnoremap <leader>fr :<C-u>DeniteProjectDir -mode=normal file/rec<CR>
+call denite#custom#source('file/rec', 'max_candidates', 20000)
+call denite#custom#source('file/rec', 'matchers', ['matcher/fuzzy'])
+"nnoremap <leader>fr :<C-u>Unite file_rec/async<CR>
 " git find
-nnoremap <leader>rg :<C-u>Unite file_rec/git<CR>
+"nnoremap <leader>rg :<C-u>Unite file_rec/git<CR>
 " find file
 nnoremap <leader>ff :<C-u>Unite find<CR>
 " grep
-nnoremap <leader>gr :<C-u>Unite grep -no-quit<CR>
+nnoremap <leader>gr :<C-u>DeniteProjectDir -mode=normal grep<CR>
+call denite#custom#source('grep', 'converters', ['converter/abbr_word'])
+call denite#custom#source('grep', 'max_candidates', 10000)
+call denite#custom#source('grep', 'sorters', ['sorter/word'])
+"nnoremap <leader>gr :<C-u>Unite grep -no-quit<CR>
+" line for searching
+nnoremap <leader>/ :<C-u>Denite -post-action=suspend line<CR>
+"nnoremap <leader>/ :<C-u>Unite line -start-insert -no-quit<CR>
+" jump
+"nnoremap <leader>j :<C-u>Denite jump<CR>
+
 " gtags reference and definition
-nnoremap <leader>c :<C-u>Unite gtags/context<CR> 
-nnoremap <leader>nqc :<C-u>Unite gtags/context -no-quit<CR> 
-nnoremap <leader>d :<C-u>Unite gtags/def<CR> 
-nnoremap <leader>nqd :<C-u>Unite gtags/def -no-quit<CR> 
-nnoremap <leader>ggr :<C-u>Unite gtags/grep<CR> 
+"nnoremap <leader>c :<C-u>Unite gtags/context<CR>
+"nnoremap <leader>nqc :<C-u>Unite gtags/context -no-quit<CR>
+"nnoremap <leader>d :<C-u>Unite gtags/def<CR>
+"nnoremap <leader>nqd :<C-u>Unite gtags/def -no-quit<CR>
+"nnoremap <leader>ggr :<C-u>Unite gtags/grep<CR>
+
 " rtags
 let g:rtagsUseDefaultMappings = 0
 noremap <Leader>ri :call rtags#SymbolInfo()<CR>
@@ -240,21 +330,132 @@ noremap <Leader>rb :call rtags#JumpBack()<CR>
 noremap <Leader>rC :call rtags#FindSuperClasses()<CR>
 noremap <Leader>rc :call rtags#FindSubClasses()<CR>
 noremap <Leader>rd :call rtags#Diagnostics()<CR>
-nnoremap <leader>rf :<C-u>Unite rtags/references<CR> 
-nnoremap <leader>nqrf :<C-u>Unite rtags/references -no-quit<CR> 
-nnoremap <leader>rs :<C-u>Unite rtags/symbol<CR> 
-nnoremap <leader>nqrs :<C-u>Unite rtags/symbol -no-quit<CR> 
-nnoremap <leader>rl :<C-u>Unite rtags/project<CR> 
-nnoremap <leader>rj :<C-u>Unite rtags/definitions<CR> 
-nnoremap <leader>rJ :<C-u>Unite rtags/declarations<CR> 
+nnoremap <leader>rf :<C-u>Unite rtags/references<CR>
+nnoremap <leader>nqrf :<C-u>Unite rtags/references -no-quit<CR>
+nnoremap <leader>rs :<C-u>Unite rtags/symbol<CR>
+nnoremap <leader>nqrs :<C-u>Unite rtags/symbol -no-quit<CR>
+nnoremap <leader>rl :<C-u>Unite rtags/project<CR>
+nnoremap <leader>rj :<C-u>Unite rtags/definitions<CR>
+nnoremap <leader>rJ :<C-u>Unite rtags/declarations<CR>
 if has("autocmd")
-  autocmd FileType python nnoremap <buffer> <leader>rj :<C-u>YcmCompleter GoTo<CR> 
-  autocmd FileType python nnoremap <buffer> <leader>rf :<C-u>YcmCompleter GoToReferences<CR> 
+  autocmd FileType python nnoremap <buffer> <leader>rj :<C-u>YcmCompleter GoTo<CR>
+  autocmd FileType python nnoremap <buffer> <leader>rf :<C-u>YcmCompleter GoToReferences<CR>
 endif " has("autocmd")
-" line for searching
-nnoremap <leader>/ :<C-u>Unite line -start-insert -no-quit<CR> 
+
+" coc reference and definition
+"nmap <leader>jd <Plug>(coc-definition)
+"nmap <leader>ji <Plug>(coc-implementation)
+"nmap <leader>jt <Plug>(coc-type-definition)
+"nmap <leader>jr <Plug>(coc-references)
+nnoremap <leader>jd :<C-u>call CocActionAsync('jumpDefinition',v:false)<cr>
+nnoremap <leader>ji :<C-u>call CocActionAsync('jumpImplementation',v:false)<cr>
+nnoremap <leader>jt :<C-u>call CocActionAsync('jumpTypeDefinition',v:false)<cr>
+nnoremap <leader>jr :<C-u>call CocActionAsync('jumpReferences',v:false)<cr>
+nnoremap <leader>ws :<C-u>CocList symbols<cr>
+
+" show documentation in preview window
+nnoremap <leader>xk :call CocActionAsync('doHover')<cr>
+
+" Register ccls C++ lanuage server.
+"let g:lsp_log_file = 'vim-lsp.log'
+"let g:lsp_log_verbose = 1
+if executable('ccls')
+  au User lsp_setup call lsp#register_server({
+    \ 'name': 'ccls',
+    \ 'cmd': {server_info->['ccls']},
+    \ 'root_uri': {
+    \   server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(
+    \     lsp#utils#get_buffer_path(),
+    \     ['compile_commands.json', '.git/']
+    \   ))
+    \ },
+    \ 'initialization_options': {
+    \   'cache': {
+    \     'directory': '.ccls-cache-lsp',
+    \     'format': 'json',
+    \     'hierarchicalPath': v:false,
+    \     'retainInMemory': 1
+    \   },
+    \   'clang': {
+    \     'excludeArgs': [
+    \       '-mthumb-interwork',
+    \       '-MF*'
+    \     ],
+    \     'extraArgs': [
+    \       '-target arm-eabi',
+    \       '--undefine-macro=__arm'
+    \     ],
+    \   },
+    \   'highlight': {
+    \     'lsRanges': v:true
+    \   },
+    \   'index': {
+    \       'initialNoLinkage': v:true
+    \   },
+    \   'request': {
+    \     'timeout': 5000
+    \   },
+    \   'workspaceSymbol': {
+    \     'caseSensitivity': 1,
+    \     'maxNum': 10000,
+    \     'sort': v:true
+    \   },
+    \   'xref': {
+    \     'maxNum': 20000
+    \   }
+    \ },
+    \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+    \ })
+
+  " bases
+  nnoremap <leader>xb :call CocLocations('ccls','$ccls/inheritance')<cr>
+  " bases of up to 3 levels
+  nnoremap <leader>xb :call CocLocations('ccls','$ccls/inheritance',{'levels':3})<cr>
+  " derived
+  nnoremap <leader>xd :call CocLocations('ccls','$ccls/inheritance',{'derived':v:true})<cr>
+  " derived of up to 3 levels
+  nnoremap <leader>xD :call CocLocations('ccls','$ccls/inheritance',{'derived':v:true,'levels':3})<cr>
+
+  " caller
+  nnoremap <leader>xc :call CocLocations('ccls','$ccls/call')<cr>
+  " callee
+  nnoremap <leader>xC :call CocLocations('ccls','$ccls/call',{'callee':v:true})<cr>
+
+  " $ccls/member
+  " member variables / variables in a namespace
+  nnoremap <leader>xm :call CocLocations('ccls','$ccls/member')<cr>
+  " member functions / functions in a namespace
+  nnoremap <leader>xf :call CocLocations('ccls','$ccls/member',{'kind':3})<cr>
+  " nested classes / types in a namespace
+  nnoremap <leader>xs :call CocLocations('ccls','$ccls/member',{'kind':2})<cr>
+
+  nnoremap <leader>xv :call CocLocations('ccls','$ccls/vars')<cr>
+  nnoremap <leader>xV :call CocLocations('ccls','$ccls/vars',{'kind':1})<cr>
+endif
+
+if executable('rg')
+  " Ripgrep command on grep source
+  call denite#custom#var('grep', 'command', ['rg'])
+  call denite#custom#var('grep', 'default_opts', ['--vimgrep', '--follow', '--no-heading'])
+  call denite#custom#var('grep', 'recursive_opts', [])
+  call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+  call denite#custom#var('grep', 'separator', ['--'])
+  call denite#custom#var('grep', 'final_opts', [])
+elseif executable('ag')
+  " Ag command on grep source
+  call denite#custom#var('grep', 'command', ['ag'])
+  call denite#custom#var('grep', 'default_opts', ['--vimgrep', '--follow'])
+  call denite#custom#var('grep', 'recursive_opts', [])
+  call denite#custom#var('grep', 'pattern_opt', [])
+  call denite#custom#var('grep', 'separator', ['--'])
+  call denite#custom#var('grep', 'final_opts', [])
+  "call denite#custom#source('grep', 'args', ['', '!', '!'])
+endif
 
 if executable('ag')
+  " Change file/rec command.
+  call denite#custom#var('file/rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+
   let g:unite_source_grep_command='ag'
   let g:unite_source_grep_default_opts='--nocolor --nogroup --hidden --case-sensitive'
   let g:unite_source_grep_recursive_opt=''
@@ -352,25 +553,8 @@ if exists('g:loaded_youcompleteme') == 0
 " let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 endif
 
-
-" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
-" let &guioptions = substitute(&guioptions, "t", "", "g")
-
-" Don't use Ex mode, use Q for formatting
-"map Q gq
-
-" This is an alternative that also works in block mode, but the deleted
-" text is lost and it only works for putting the current register.
-"vnoremap p "_dp
-
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
-
-  " Enable file type detection.
-  " Use the default filetype settings, so that mail gets 'tw' set to 72,
-  " 'cindent' is on in C files, etc.
-  " Also load indent files, to automatically do language-dependent indenting.
-  filetype plugin indent on
 
   " Put these in an autocmd group, so that we can delete them easily.
   augroup vimrcEx
@@ -393,10 +577,6 @@ if has("autocmd")
 
   " autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
   " autocmd InsertLeave * if pumvisible() == 0|pclose|endif
-
-else
-
-  set autoindent		" always set autoindenting on
 
 endif " has("autocmd")
 
