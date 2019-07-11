@@ -2,7 +2,7 @@
 {
   "coc": {
     "preferences": {
-      "hoverTarget": "preview",
+      "hoverTarget": "float",
       "jumpCommand": "edit"
     }
   },

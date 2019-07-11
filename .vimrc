@@ -82,7 +82,7 @@ endif
 set hidden
 set hlsearch
 "set complete-=i
-set completeopt-=preview
+"set completeopt-=preview
 "set completeopt+=longest
 set cmdheight=2
 set autoindent
@@ -242,7 +242,7 @@ nnoremap <leader>jr :<C-u>call CocActionAsync('jumpReferences',v:false)<cr>
 nnoremap <leader>ws :<C-u>CocList symbols<cr>
 
 " show documentation in preview window
-nnoremap <leader>xk :call CocActionAsync('doHover')<cr>
+nnoremap <silent> <leader>xk :call CocActionAsync('doHover')<cr>
 
 " Register ccls C++ lanuage server.
 "let g:lsp_log_file = 'vim-lsp.log'
