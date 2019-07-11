@@ -66,7 +66,6 @@ Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'Shougo/denite.nvim'
 Plug 'Shougo/neomru.vim'
-Plug 'Shougo/unite.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -203,7 +202,7 @@ let g:airline_exclude_filetypes = ["list"]
 "let g:airline_solarized_bg='dark'
 "let g:airline_theme='solarized'
 
-" FZF/Denite/Unite
+" FZF/Denite
 " Set the default matcher for all sources.
 call denite#custom#source('_', 'matchers', ['matcher/regexp'])
 "call denite#custom#source('grep', 'matchers', ['matcher/substring'])
@@ -212,29 +211,11 @@ nnoremap <silent> <leader>fa :<C-u>Windows<CR>
 " recursive current directory
 nnoremap <silent> <leader>fr :<C-u>call fzf#run(fzf#wrap({'dir': g:WorkspaceFolders[-1]}))<CR>
 " grep
-nnoremap <silent> <leader>gr :<C-u>DeniteProjectDir -mode=normal grep<CR>
-call denite#custom#source('grep', 'converters', ['converter/abbr_word'])
-call denite#custom#source('grep', 'max_candidates', 10000)
-call denite#custom#source('grep', 'sorters', ['sorter/word'])
-
-if executable('rg')
-  " Ripgrep command on grep source
-  call denite#custom#var('grep', 'command', ['rg'])
-  call denite#custom#var('grep', 'default_opts', ['--vimgrep', '--follow', '--no-heading'])
-  call denite#custom#var('grep', 'recursive_opts', [])
-  call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
-  call denite#custom#var('grep', 'separator', ['--'])
-  call denite#custom#var('grep', 'final_opts', [])
-elseif executable('ag')
-  " Ag command on grep source
-  call denite#custom#var('grep', 'command', ['ag'])
-  call denite#custom#var('grep', 'default_opts', ['--vimgrep', '--follow'])
-  call denite#custom#var('grep', 'recursive_opts', [])
-  call denite#custom#var('grep', 'pattern_opt', [])
-  call denite#custom#var('grep', 'separator', ['--'])
-  call denite#custom#var('grep', 'final_opts', [])
-  "call denite#custom#source('grep', 'args', ['', '!', '!'])
-endif
+command! -bang -nargs=* Rg
+            \ call fzf#vim#grep(
+            \   'rg --column --line-number --no-heading --color=always '.(<bang>0 ? '--no-ignore ' : '').shellescape(<q-args>), 1,
+            \   fzf#vim#with_preview({'dir': g:WorkspaceFolders[-1]}, 'right:40%', 'f8'))
+nnoremap <leader>gr :<C-u>Rg 
 
 " line for searching
 nnoremap <silent> <leader>/ :<C-u>Denite -post-action=suspend line<CR>
