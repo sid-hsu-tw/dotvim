@@ -62,9 +62,6 @@ Plug 'neoclide/coc.nvim', {
 Plug 'powerman/vim-plugin-AnsiEsc'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
-Plug 'Shougo/denite.nvim'
 Plug 'Shougo/neomru.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
@@ -85,9 +82,6 @@ endif
 
 set hidden
 set hlsearch
-"set complete-=i
-"set completeopt-=preview
-"set completeopt+=longest
 set cmdheight=2
 set autoindent
 set copyindent
@@ -202,10 +196,7 @@ let g:airline_exclude_filetypes = ["list"]
 "let g:airline_solarized_bg='dark'
 "let g:airline_theme='solarized'
 
-" FZF/Denite
-" Set the default matcher for all sources.
-call denite#custom#source('_', 'matchers', ['matcher/regexp'])
-"call denite#custom#source('grep', 'matchers', ['matcher/substring'])
+" FZF
 " find all
 nnoremap <silent> <leader>fa :<C-u>Windows<CR>
 " recursive current directory
@@ -218,7 +209,7 @@ command! -bang -nargs=* Rg
 nnoremap <leader>gr :<C-u>Rg 
 
 " line for searching
-nnoremap <silent> <leader>/ :<C-u>Denite -post-action=suspend line<CR>
+nnoremap <silent> <leader>/ :<C-u>call fzf#vim#buffer_lines({'options': ['--exact', '--no-sort']})<CR>
 
 " coc reference and definition
 "nmap <silent> <leader>jd <Plug>(coc-definition)
