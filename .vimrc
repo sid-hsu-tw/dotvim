@@ -47,6 +47,11 @@ endif
 call plug#begin('~/.vim/plugged')
 
 Plug 'jackguo380/vim-lsp-cxx-highlight'
+Plug 'junegunn/fzf', {
+            \ 'dir': '~/.fzf',
+            \ 'do': './install --all'
+            \ }
+Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vista.vim'
 Plug 'majutsushi/tagbar'
 Plug 'morhetz/gruvbox'
@@ -143,7 +148,7 @@ let g:indent_guides_guide_size = 1
 " vista
 let g:vista_default_executive = 'coc'
 let g:vista_sidebar_width = 40
-nnoremap <F8> :Vista!!<CR>
+nnoremap <silent> <F8> :Vista!!<CR>
 
 " 'vim-airline/vim-airline'
 let g:airline_powerline_fonts = 1
@@ -198,48 +203,52 @@ let g:airline_exclude_filetypes = ["list"]
 "let g:airline_solarized_bg='dark'
 "let g:airline_theme='solarized'
 
-" Denite/Unite
+" FZF/Denite/Unite
 " Set the default matcher for all sources.
 call denite#custom#source('_', 'matchers', ['matcher/regexp'])
 "call denite#custom#source('grep', 'matchers', ['matcher/substring'])
 " find all
-"nnoremap <leader>fa :<C-u>Unite tab file_mru buffer<CR>
-nnoremap <leader>fa :<C-u>Denite -mode=normal unite:tab file_mru<CR>
-" find buffer directory
-"nnoremap <leader>rb :<C-u>UniteWithBufferDir file_rec/async<CR>
-" find current directory
-"nnoremap <leader>fc :<C-u>Unite file<CR>
+nnoremap <silent> <leader>fa :<C-u>Windows<CR>
 " recursive current directory
-nnoremap <leader>fr :<C-u>DeniteProjectDir -mode=normal file/rec<CR>
-call denite#custom#source('file/rec', 'max_candidates', 20000)
-call denite#custom#source('file/rec', 'matchers', ['matcher/fuzzy'])
-"nnoremap <leader>fr :<C-u>Unite file_rec/async<CR>
-" git find
-"nnoremap <leader>rg :<C-u>Unite file_rec/git<CR>
-" find file
-nnoremap <leader>ff :<C-u>Unite find<CR>
+nnoremap <silent> <leader>fr :<C-u>call fzf#run(fzf#wrap({'dir': g:WorkspaceFolders[-1]}))<CR>
 " grep
-nnoremap <leader>gr :<C-u>DeniteProjectDir -mode=normal grep<CR>
+nnoremap <silent> <leader>gr :<C-u>DeniteProjectDir -mode=normal grep<CR>
 call denite#custom#source('grep', 'converters', ['converter/abbr_word'])
 call denite#custom#source('grep', 'max_candidates', 10000)
 call denite#custom#source('grep', 'sorters', ['sorter/word'])
-"nnoremap <leader>gr :<C-u>Unite grep -no-quit<CR>
+
+if executable('rg')
+  " Ripgrep command on grep source
+  call denite#custom#var('grep', 'command', ['rg'])
+  call denite#custom#var('grep', 'default_opts', ['--vimgrep', '--follow', '--no-heading'])
+  call denite#custom#var('grep', 'recursive_opts', [])
+  call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+  call denite#custom#var('grep', 'separator', ['--'])
+  call denite#custom#var('grep', 'final_opts', [])
+elseif executable('ag')
+  " Ag command on grep source
+  call denite#custom#var('grep', 'command', ['ag'])
+  call denite#custom#var('grep', 'default_opts', ['--vimgrep', '--follow'])
+  call denite#custom#var('grep', 'recursive_opts', [])
+  call denite#custom#var('grep', 'pattern_opt', [])
+  call denite#custom#var('grep', 'separator', ['--'])
+  call denite#custom#var('grep', 'final_opts', [])
+  "call denite#custom#source('grep', 'args', ['', '!', '!'])
+endif
+
 " line for searching
-nnoremap <leader>/ :<C-u>Denite -post-action=suspend line<CR>
-"nnoremap <leader>/ :<C-u>Unite line -start-insert -no-quit<CR>
-" jump
-"nnoremap <leader>j :<C-u>Denite jump<CR>
+nnoremap <silent> <leader>/ :<C-u>Denite -post-action=suspend line<CR>
 
 " coc reference and definition
-"nmap <leader>jd <Plug>(coc-definition)
-"nmap <leader>ji <Plug>(coc-implementation)
-"nmap <leader>jt <Plug>(coc-type-definition)
-"nmap <leader>jr <Plug>(coc-references)
-nnoremap <leader>jd :<C-u>call CocActionAsync('jumpDefinition',v:false)<cr>
-nnoremap <leader>ji :<C-u>call CocActionAsync('jumpImplementation',v:false)<cr>
-nnoremap <leader>jt :<C-u>call CocActionAsync('jumpTypeDefinition',v:false)<cr>
-nnoremap <leader>jr :<C-u>call CocActionAsync('jumpReferences',v:false)<cr>
-nnoremap <leader>ws :<C-u>CocList symbols<cr>
+"nmap <silent> <leader>jd <Plug>(coc-definition)
+"nmap <silent> <leader>ji <Plug>(coc-implementation)
+"nmap <silent> <leader>jt <Plug>(coc-type-definition)
+"nmap <silent> <leader>jr <Plug>(coc-references)
+nnoremap <silent> <leader>jd :<C-u>call CocActionAsync('jumpDefinition',v:false)<cr>
+nnoremap <silent> <leader>ji :<C-u>call CocActionAsync('jumpImplementation',v:false)<cr>
+nnoremap <silent> <leader>jt :<C-u>call CocActionAsync('jumpTypeDefinition',v:false)<cr>
+nnoremap <silent> <leader>jr :<C-u>call CocActionAsync('jumpReferences',v:false)<cr>
+nnoremap <silent> <leader>ws :<C-u>CocList symbols<cr>
 
 " show documentation in preview window
 nnoremap <silent> <leader>xk :call CocActionAsync('doHover')<cr>
@@ -296,78 +305,34 @@ if executable('ccls')
     \ })
 
   " bases
-  nnoremap <leader>xb :call CocLocations('ccls','$ccls/inheritance')<cr>
+  nnoremap <silent> <leader>xb :call CocLocations('ccls','$ccls/inheritance')<cr>
   " bases of up to 3 levels
-  nnoremap <leader>xb :call CocLocations('ccls','$ccls/inheritance',{'levels':3})<cr>
+  nnoremap <silent> <leader>xb :call CocLocations('ccls','$ccls/inheritance',{'levels':3})<cr>
   " derived
-  nnoremap <leader>xd :call CocLocations('ccls','$ccls/inheritance',{'derived':v:true})<cr>
+  nnoremap <silent> <leader>xd :call CocLocations('ccls','$ccls/inheritance',{'derived':v:true})<cr>
   " derived of up to 3 levels
-  nnoremap <leader>xD :call CocLocations('ccls','$ccls/inheritance',{'derived':v:true,'levels':3})<cr>
+  nnoremap <silent> <leader>xD :call CocLocations('ccls','$ccls/inheritance',{'derived':v:true,'levels':3})<cr>
 
   " caller
-  nnoremap <leader>xc :call CocLocations('ccls','$ccls/call')<cr>
+  nnoremap <silent> <leader>xc :call CocLocations('ccls','$ccls/call')<cr>
   " callee
-  nnoremap <leader>xC :call CocLocations('ccls','$ccls/call',{'callee':v:true})<cr>
+  nnoremap <silent> <leader>xC :call CocLocations('ccls','$ccls/call',{'callee':v:true})<cr>
 
   " $ccls/member
   " member variables / variables in a namespace
-  nnoremap <leader>xm :call CocLocations('ccls','$ccls/member')<cr>
+  nnoremap <silent> <leader>xm :call CocLocations('ccls','$ccls/member')<cr>
   " member functions / functions in a namespace
-  nnoremap <leader>xf :call CocLocations('ccls','$ccls/member',{'kind':3})<cr>
+  nnoremap <silent> <leader>xf :call CocLocations('ccls','$ccls/member',{'kind':3})<cr>
   " nested classes / types in a namespace
-  nnoremap <leader>xs :call CocLocations('ccls','$ccls/member',{'kind':2})<cr>
+  nnoremap <silent> <leader>xs :call CocLocations('ccls','$ccls/member',{'kind':2})<cr>
 
-  nnoremap <leader>xv :call CocLocations('ccls','$ccls/vars')<cr>
-  nnoremap <leader>xV :call CocLocations('ccls','$ccls/vars',{'kind':1})<cr>
-endif
-
-if executable('rg')
-  " Ripgrep command on grep source
-  call denite#custom#var('grep', 'command', ['rg'])
-  call denite#custom#var('grep', 'default_opts', ['--vimgrep', '--follow', '--no-heading'])
-  call denite#custom#var('grep', 'recursive_opts', [])
-  call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
-  call denite#custom#var('grep', 'separator', ['--'])
-  call denite#custom#var('grep', 'final_opts', [])
-elseif executable('ag')
-  " Ag command on grep source
-  call denite#custom#var('grep', 'command', ['ag'])
-  call denite#custom#var('grep', 'default_opts', ['--vimgrep', '--follow'])
-  call denite#custom#var('grep', 'recursive_opts', [])
-  call denite#custom#var('grep', 'pattern_opt', [])
-  call denite#custom#var('grep', 'separator', ['--'])
-  call denite#custom#var('grep', 'final_opts', [])
-  "call denite#custom#source('grep', 'args', ['', '!', '!'])
-endif
-
-if executable('ag')
-  " Change file/rec command.
-  call denite#custom#var('file/rec', 'command', ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-
-  let g:unite_source_grep_command='ag'
-  let g:unite_source_grep_default_opts='--nocolor --nogroup --hidden --case-sensitive'
-  let g:unite_source_grep_recursive_opt=''
-  let g:unite_source_rec_async_command=[ 'ag', '--follow', '--nocolor', '--nogroup', '--hidden', '-g', '' ]
-  "let g:unite_source_find_command='ag'
-  "let g:unite_source_find_default_opts='--follow --nocolor --nogroup --hidden'
-  "let g:unite_source_find_default_expr='-g ""'
-endif
-
-if executable('find')
-  let g:unite_source_find_default_opts='-L'
-  if has('win32')
-    let g:unite_source_find_default_expr="-name \"'*'\""
-  else
-    let g:unite_source_find_default_expr="-name '*'"
-  endif
+  nnoremap <silent> <leader>xv :call CocLocations('ccls','$ccls/vars')<cr>
+  nnoremap <silent> <leader>xV :call CocLocations('ccls','$ccls/vars',{'kind':1})<cr>
 endif
 
 " tagbar
 let g:tagbar_sort = 0
 "let g:tagbar_show_linenumbers = 2
-
-
-" Mapping
 
 " Shell style command-line editing.
 cnoremap <C-A> <Home>
@@ -377,8 +342,8 @@ cnoremap <Esc>b <S-Left>
 cnoremap <Esc>f <S-Right>
 
 " Match current command-line from the history.
-"cnoremap <C-P> <UP>
-"cnoremap <C-N> <DOWN>
+cnoremap <C-P> <UP>
+cnoremap <C-N> <DOWN>
 
 " Tab page
 set tabpagemax=39
@@ -409,9 +374,6 @@ if has("autocmd")
     \ endif
 
   augroup END
-
-  " autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
-  " autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 
 endif " has("autocmd")
 
