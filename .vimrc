@@ -209,7 +209,7 @@ command! -bang -nargs=* Rg
 nnoremap <leader>gr :<C-u>Rg 
 
 " line for searching
-nnoremap <silent> <leader>/ :<C-u>call fzf#vim#buffer_lines({'options': ['--exact', '--no-sort']})<CR>
+nnoremap <silent> <leader>/ :<C-u>call fzf#vim#buffer_lines({'options': ['--exact', '--no-sort', '--preview', '~/.vim/scripts/fzf-preview.sh '.expand('%').' {}']})<CR>
 
 " coc reference and definition
 "nmap <silent> <leader>jd <Plug>(coc-definition)
