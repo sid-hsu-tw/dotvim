@@ -39,11 +39,15 @@
     }
   },
   "list": {
+    "extendedSearchMode": true,
     "insertMappings": {
       "<C-e>": "normal:j",
       "<C-y>": "normal:k"
     },
-    "maxHeight": 20
+    "maxHeight": 20,
+    "source": {
+        "location.defaultOptions": ["--no-sort", "--regex"]
+    }
   },
   "suggest": {
     ".triggerAfterInsertEnter": true
