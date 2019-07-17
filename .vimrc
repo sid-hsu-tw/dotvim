@@ -212,7 +212,7 @@ nnoremap <leader>gr :<C-u>Rg
 nnoremap <silent> <leader>/ :<C-u>call fzf#vim#buffer_lines({'options': ['--exact', '--no-sort', '--preview', '~/.vim/scripts/fzf-preview.sh '.expand('%').' {}']})<CR>
 
 " coc reference and definition
-"nmap <silent> <leader>jd <Plug>(coc-definition)
+nmap <silent> <F12> <Plug>(coc-definition)
 "nmap <silent> <leader>ji <Plug>(coc-implementation)
 "nmap <silent> <leader>jt <Plug>(coc-type-definition)
 "nmap <silent> <leader>jr <Plug>(coc-references)
