@@ -197,6 +197,7 @@ let g:airline_exclude_filetypes = ["list"]
 "let g:airline_theme='solarized'
 
 " FZF
+let g:fzf_history_dir = '~/.cache/fzf-history'
 " find all
 nnoremap <silent> <leader>fa :<C-u>Windows<CR>
 " recursive current directory
@@ -205,7 +206,7 @@ nnoremap <silent> <leader>fr :<C-u>call fzf#run(fzf#wrap({'dir': g:WorkspaceFold
 command! -bang -nargs=* Rg
             \ call fzf#vim#grep(
             \   'rg --column --line-number --no-heading --color=always '.(<bang>0 ? '--no-ignore ' : '').shellescape(<q-args>), 1,
-            \   fzf#vim#with_preview({'dir': g:WorkspaceFolders[-1]}, 'right:40%', 'f8'))
+            \   fzf#vim#with_preview({'dir': g:WorkspaceFolders[-1], 'options': []}, 'right:40%', 'f8'))
 nnoremap <leader>gr :<C-u>Rg 
 
 " line for searching
