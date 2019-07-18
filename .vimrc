@@ -241,7 +241,7 @@ if executable('ccls')
     \ },
     \ 'initialization_options': {
     \   'cache': {
-    \     'directory': '.ccls-cache-lsp',
+    \     'directory': '',
     \     'format': 'json',
     \     'hierarchicalPath': v:false,
     \     'retainInMemory': 1
@@ -260,7 +260,8 @@ if executable('ccls')
     \     'lsRanges': v:true
     \   },
     \   'index': {
-    \       'initialNoLinkage': v:true
+    \       'initialNoLinkage': v:true,
+    \       'onChange': v:true
     \   },
     \   'request': {
     \     'timeout': 5000
