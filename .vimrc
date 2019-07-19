@@ -46,6 +46,7 @@ endif
 " Plugins will be downloaded under the specified directory.
 call plug#begin('~/.vim/plugged')
 
+Plug 'gruvbox-community/gruvbox'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'junegunn/fzf', {
             \ 'dir': '~/.fzf',
@@ -54,7 +55,6 @@ Plug 'junegunn/fzf', {
 Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vista.vim'
 Plug 'majutsushi/tagbar'
-Plug 'morhetz/gruvbox'
 "Plug 'nathanaelkane/vim-indent-guides'
 Plug 'neoclide/coc.nvim', {
             \ 'branch': 'release'
@@ -124,7 +124,6 @@ endif
 "set path+=~/projects/uniform_module_test/common/include
 
 " set colorscheme
-"colorscheme shefiro
 set background=dark
 let g:gruvbox_contrast_dark = 'hard'
 colorscheme gruvbox
