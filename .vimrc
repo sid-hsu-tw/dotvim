@@ -225,6 +225,9 @@ nnoremap <silent> <leader>ws :<C-u>CocList symbols<cr>
 " show documentation in preview window
 nnoremap <silent> <leader>xk :call CocActionAsync('doHover')<cr>
 
+" trigger completion.
+inoremap <silent><expr> <C-j> coc#refresh()
+
 " Register ccls C++ lanuage server.
 "let g:lsp_log_file = 'vim-lsp.log'
 "let g:lsp_log_verbose = 1
