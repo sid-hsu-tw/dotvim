@@ -63,6 +63,7 @@ Plug 'powerman/vim-plugin-AnsiEsc'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'Shougo/neomru.vim'
+Plug 'skywind3000/asyncrun.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -194,6 +195,11 @@ let g:airline_exclude_filetypes = ["list"]
 " 'vim-airline/vim-airline-themes'
 "let g:airline_solarized_bg='dark'
 "let g:airline_theme='solarized'
+
+" asyncrun
+let g:asyncrun_open = 20
+noremap <silent> <F6> :AsyncRun make build<cr>
+noremap <silent> <F9> :call asyncrun#quickfix_toggle(g:asyncrun_open)<cr>
 
 " FZF
 let g:fzf_history_dir = '~/.cache/fzf-history'
