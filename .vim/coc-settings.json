@@ -6,6 +6,13 @@
       "jumpCommand": "edit"
     }
   },
+  "diagnostic": {
+    "enable": true,
+    "errorSign": "E",
+    "warningSign": "W",
+    "infoSign": "I",
+    "hintSign": "H"
+  },
   "languageserver": {
     "ccls": {
       "command": "ccls",
