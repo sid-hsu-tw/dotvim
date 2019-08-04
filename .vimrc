@@ -234,9 +234,11 @@ nnoremap <silent> <leader>xk :call CocActionAsync('doHover')<cr>
 " trigger completion.
 inoremap <silent><expr> <C-j> coc#refresh()
 
-" Register ccls C++ lanuage server.
+" vim-lsp
+let g:lsp_diagnostics_enabled = 0
 "let g:lsp_log_file = 'vim-lsp.log'
 "let g:lsp_log_verbose = 1
+" Register ccls C++ lanuage server.
 if executable('ccls')
   au User lsp_setup call lsp#register_server({
     \ 'name': 'ccls',
