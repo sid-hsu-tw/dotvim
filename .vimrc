@@ -198,7 +198,7 @@ let g:airline_exclude_filetypes = ["list"]
 
 " asyncrun
 let g:asyncrun_open = 20
-noremap <silent> <F6> :AsyncRun make build<cr>
+noremap <F6> :AsyncRun btsdk make_app build<cr>
 noremap <silent> <F9> :call asyncrun#quickfix_toggle(g:asyncrun_open)<cr>
 
 " FZF
