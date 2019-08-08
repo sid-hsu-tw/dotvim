@@ -56,6 +56,13 @@
         "location.defaultOptions": ["--no-sort", "--regex"]
     }
   },
+  "python": {
+    "jediEnabled": false,
+    "linting": {
+      "pylintEnabled": true,
+      "enabled": true
+    }
+  },
   "suggest": {
     ".triggerAfterInsertEnter": true
   }
