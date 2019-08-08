@@ -226,10 +226,18 @@ nnoremap <silent> <leader>jd :<C-u>call CocActionAsync('jumpDefinition',v:false)
 nnoremap <silent> <leader>ji :<C-u>call CocActionAsync('jumpImplementation',v:false)<cr>
 nnoremap <silent> <leader>jt :<C-u>call CocActionAsync('jumpTypeDefinition',v:false)<cr>
 nnoremap <silent> <leader>jr :<C-u>call CocActionAsync('jumpReferences',v:false)<cr>
-nnoremap <silent> <leader>ws :<C-u>CocList symbols<cr>
-
-" show documentation in preview window
-nnoremap <silent> <leader>xk :call CocActionAsync('doHover')<cr>
+" Format current buffer
+nnoremap <silent> <leader>cf :call CocAction('format')<cr>
+" Format selected region
+xmap <leader>cf <Plug>(coc-format-selected)
+" show documentation
+nnoremap <silent> <leader>ck :call CocActionAsync('doHover')<cr>
+" Show commands
+nnoremap <silent> <leader>cc :<C-u>CocList commands<cr>
+" Show all diagnostics
+nnoremap <silent> <leader>cd :<C-u>CocList diagnostics<cr>
+" Search workspace symbols
+nnoremap <silent> <leader>cs :<C-u>CocList symbols<cr>
 
 " trigger completion.
 inoremap <silent><expr> <C-j> coc#refresh()
