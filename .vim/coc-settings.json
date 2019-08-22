@@ -57,10 +57,13 @@
     }
   },
   "python": {
+    "analysis": {
+      "diagnosticEnabled": false
+    },
     "jediEnabled": false,
     "linting": {
-      "pylintEnabled": true,
-      "enabled": true
+      "enabled": true,
+      "pylintEnabled": true
     }
   },
   "suggest": {
