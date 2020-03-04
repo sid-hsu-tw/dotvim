@@ -26,7 +26,7 @@
           "retainInMemory": 1
         },
         "highlight": {
-          "lsRanges": false
+          "lsRanges": true
         },
         "index": {
             "initialNoLinkage": true

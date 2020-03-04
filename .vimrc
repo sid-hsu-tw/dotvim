@@ -61,7 +61,6 @@ Plug 'neoclide/coc.nvim', {
             \ }
 Plug 'powerman/vim-plugin-AnsiEsc'
 Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
 Plug 'Shougo/neomru.vim'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'tpope/vim-fugitive'
@@ -129,7 +128,7 @@ set background=dark
 let g:gruvbox_contrast_dark = 'hard'
 colorscheme gruvbox
 "hi link CocHighlightText GruvboxBlueBold
-"autocmd CursorHold * silent call CocActionAsync('highlight')
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 "syntax on
 
@@ -242,60 +241,8 @@ nnoremap <silent> <leader>cs :<C-u>CocList symbols<cr>
 " trigger completion.
 inoremap <silent><expr> <C-j> coc#refresh()
 
-" vim-lsp
-let g:lsp_diagnostics_enabled = 0
-"let g:lsp_log_file = 'vim-lsp.log'
-"let g:lsp_log_verbose = 1
-" Register ccls C++ lanuage server.
+" coc maps for ccls
 if executable('ccls')
-  au User lsp_setup call lsp#register_server({
-    \ 'name': 'ccls',
-    \ 'cmd': {server_info->['ccls']},
-    \ 'root_uri': {
-    \   server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(
-    \     lsp#utils#get_buffer_path(),
-    \     ['compile_commands.json', '.git/']
-    \   ))
-    \ },
-    \ 'initialization_options': {
-    \   'cache': {
-    \     'directory': '',
-    \     'format': 'json',
-    \     'hierarchicalPath': v:false,
-    \     'retainInMemory': 1
-    \   },
-    \   'clang': {
-    \     'excludeArgs': [
-    \       '-mthumb-interwork',
-    \       '-MF*'
-    \     ],
-    \     'extraArgs': [
-    \       '-target arm-eabi',
-    \       '--undefine-macro=__arm'
-    \     ],
-    \   },
-    \   'highlight': {
-    \     'lsRanges': v:true
-    \   },
-    \   'index': {
-    \       'initialNoLinkage': v:true,
-    \       'onChange': v:true
-    \   },
-    \   'request': {
-    \     'timeout': 5000
-    \   },
-    \   'workspaceSymbol': {
-    \     'caseSensitivity': 1,
-    \     'maxNum': 10000,
-    \     'sort': v:true
-    \   },
-    \   'xref': {
-    \     'maxNum': 20000
-    \   }
-    \ },
-    \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
-    \ })
-
   " bases
   nnoremap <silent> <leader>xb :call CocLocations('ccls','$ccls/inheritance')<cr>
   " bases of up to 3 levels
