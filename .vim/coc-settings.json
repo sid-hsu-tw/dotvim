@@ -2,6 +2,7 @@
 {
   "coc": {
     "preferences": {
+      "rootPatterns": [".git/", ".vim/"],
       "hoverTarget": "float",
       "jumpCommand": "edit"
     }
