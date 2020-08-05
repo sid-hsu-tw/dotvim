@@ -46,11 +46,12 @@ endif
 " Plugins will be downloaded under the specified directory.
 call plug#begin('~/.vim/plugged')
 
+Plug 'antoinemadec/coc-fzf'
 Plug 'gruvbox-community/gruvbox'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'junegunn/fzf', {
             \ 'dir': '~/.fzf',
-            \ 'do': './install --all'
+            \ 'do': { -> fzf#install() }
             \ }
 Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vista.vim'
@@ -139,7 +140,7 @@ let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
 
 " vista
-let g:vista_default_executive = 'coc'
+let g:vista_c_executive = 'coc'
 let g:vista_sidebar_width = 40
 nnoremap <silent> <F8> :Vista!!<CR>
 
@@ -198,11 +199,12 @@ let g:airline_exclude_filetypes = ["list"]
 
 " asyncrun
 let g:asyncrun_open = 20
-noremap <F6> :AsyncRun btsdk make_app build<cr>
+noremap <F6> :AsyncRun -raw btsdk make_app build<cr>
 noremap <silent> <F9> :call asyncrun#quickfix_toggle(g:asyncrun_open)<cr>
 
 " FZF
-let g:fzf_history_dir = '~/.cache/fzf-history'
+"let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+let g:fzf_history_dir = '~/.local/share/fzf-history'
 " find all
 nnoremap <silent> <leader>fa :<C-u>Windows<CR>
 " recursive current directory
@@ -218,6 +220,9 @@ nnoremap <leader>gr :<C-u>Rg
 nnoremap <silent> <leader>/ :<C-u>call fzf#vim#buffer_lines({'options': ['--exact', '--no-sort', '--preview', '~/.vim/scripts/fzf-preview.sh '.expand('%').' {}']})<CR>
 
 " coc reference and definition
+let g:coc_fzf_preview = ''
+let g:coc_fzf_opts = []
+
 nmap <silent> <F12> <Plug>(coc-definition)
 "nmap <silent> <leader>ji <Plug>(coc-implementation)
 "nmap <silent> <leader>jt <Plug>(coc-type-definition)
@@ -235,7 +240,7 @@ nnoremap <silent> <leader>ck :call CocActionAsync('doHover')<cr>
 " Show commands
 nnoremap <silent> <leader>cc :<C-u>CocList commands<cr>
 " Show all diagnostics
-nnoremap <silent> <leader>cd :<C-u>CocList diagnostics<cr>
+nnoremap <silent> <leader>cd :<C-u>CocFzfList diagnostics<cr>
 " Search workspace symbols
 nnoremap <silent> <leader>cs :<C-u>CocList symbols<cr>
 
@@ -269,6 +274,9 @@ if executable('ccls')
   nnoremap <silent> <leader>xv :call CocLocations('ccls','$ccls/vars')<cr>
   nnoremap <silent> <leader>xV :call CocLocations('ccls','$ccls/vars',{'kind':1})<cr>
 endif
+
+" vim-lsp-cxx-highlight
+let g:lsp_cxx_hl_use_text_props = 1
 
 " tagbar
 let g:tagbar_sort = 0
