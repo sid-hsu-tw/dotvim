@@ -52,7 +52,7 @@ Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-mark'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'junegunn/fzf', {
-            \ 'dir': '~/.fzf',
+            \ 'dir': '~/dotfiles/fzf',
             \ 'do': { -> fzf#install() }
             \ }
 Plug 'junegunn/fzf.vim'
