@@ -48,6 +48,8 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'antoinemadec/coc-fzf'
 Plug 'gruvbox-community/gruvbox'
+Plug 'inkarkat/vim-ingo-library'
+Plug 'inkarkat/vim-mark'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'junegunn/fzf', {
             \ 'dir': '~/.fzf',
@@ -133,6 +135,13 @@ colorscheme gruvbox
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 "syntax on
+
+" inkarkat/vim-mark
+let g:mw_no_mappings = 1
+nmap <unique> <leader>ms <Plug>MarkSet
+xmap <unique> <leader>ms <Plug>MarkSet
+nmap <unique> <Leader>mr <Plug>MarkRegex
+xmap <unique> <Leader>mr <Plug>MarkRegex
 
 " Indent guide
 let g:indent_guides_auto_colors = 0
