@@ -46,6 +46,7 @@ endif
 " Plugins will be downloaded under the specified directory.
 call plug#begin('~/.vim/plugged')
 
+Plug 'andymass/vim-matchup'
 Plug 'antoinemadec/coc-fzf'
 Plug 'gruvbox-community/gruvbox'
 Plug 'inkarkat/vim-ingo-library'
@@ -78,10 +79,6 @@ call plug#end()
 if has('win32')
   set runtimepath+=~/.vim
   set shellslash
-endif
-
-if has('packages') && !has('win32unix') && !has('win32')
-  packadd! matchit
 endif
 
 set hidden
@@ -135,6 +132,9 @@ colorscheme gruvbox
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 "syntax on
+
+" andymass/vim-matchup
+nnoremap <silent> <leader>wai :<C-u>MatchupWhereAmI?<CR>
 
 " inkarkat/vim-mark
 let g:mw_no_mappings = 1
