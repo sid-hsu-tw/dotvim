@@ -247,7 +247,7 @@ xmap <leader>cf <Plug>(coc-format-selected)
 " show documentation
 nnoremap <silent> <leader>ck :call CocActionAsync('doHover')<cr>
 " Show commands
-nnoremap <silent> <leader>cc :<C-u>CocList commands<cr>
+nnoremap <silent> <leader>cc :<C-u>CocFzfList commands<cr>
 " Show all diagnostics
 nnoremap <silent> <leader>cd :<C-u>CocFzfList diagnostics<cr>
 " Search workspace symbols
