@@ -71,6 +71,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'will133/vim-dirdiff'
+Plug 'https://gn.googlesource.com/gn', {
+            \ 'rtp': 'misc/vim'
+            \ }
 
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
